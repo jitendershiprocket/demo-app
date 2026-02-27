@@ -17,18 +17,22 @@ export class UserService {
   }
 
   /**
-   * Returns user email with null check.
-   */
-  getUserEmail(id: number): string | null {
-    const user = this.users.find((u) => u.id === id);
-    return user?.email ?? null;
-  }
-
-  /**
-   * Returns user ID with null check.
+   * BUG #1: Returns user ID without null check.
+   * When user not found → "Cannot read property 'id' of undefined"
+   * Fix: return user?.id ?? null
    */
   getUserId(id: number): number | null {
     const user = this.users.find((u) => u.id === id);
-    return user?.id ?? null;
+    return (user as { id: number }).id;
+  }
+
+  /**
+   * BUG #2: Returns user email without null check.
+   * When user not found → "Cannot read property 'email' of undefined"
+   * Fix: return user?.email ?? null
+   */
+  getUserEmail(id: number): string | null {
+    const user = this.users.find((u) => u.id === id);
+    return (user as User).email;
   }
 }
