@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import * as Sentry from '@sentry/angular';
 import { UserService } from '../../services/user.service';
 import { KNOWN_BUGS } from '../../data/bugs.data';
-import { BugInfo } from '../../models/bug-info.model';
 
 type FetchType = 'id' | 'email';
 
