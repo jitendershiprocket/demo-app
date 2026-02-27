@@ -12,27 +12,23 @@ export class UserService {
 
   /** Get user by ID. Returns null if not found. */
   getUser(id: number): User | null {
-    const user = this.users.find((u) => u.id === id);
+    const user = this.users?.find((u) => u.id === id);
     return user ?? null;
   }
 
   /**
-   * BUG #1: Returns user ID without null check.
-   * When user not found → "Cannot read property 'id' of undefined"
-   * Fix: return user?.id ?? null
+   * Returns user ID, or null if not found.
    */
   getUserId(id: number): number | null {
-    const user = this.users.find((u) => u.id === id);
-    return (user as { id: number }).id;
+    const user = this.users?.find((u) => u.id === id);
+    return user?.id ?? null;
   }
 
   /**
-   * BUG #2: Returns user email without null check.
-   * When user not found → "Cannot read property 'email' of undefined"
-   * Fix: return user?.email ?? null
+   * Returns user email, or null if not found.
    */
   getUserEmail(id: number): string | null {
-    const user = this.users.find((u) => u.id === id);
-    return (user as User).email;
+    const user = this.users?.find((u) => u.id === id);
+    return user?.email ?? null;
   }
 }
