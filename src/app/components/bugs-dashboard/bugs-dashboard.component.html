@@ -1,0 +1,70 @@
+<div class="bugs-dashboard">
+  <h2>🐛 User Data Fetch (Bug Demo)</h2>
+  <p class="subtitle">
+    User ID daalo, ID ya Email fetch karo. <strong>ID 1, 2</strong> = valid. <strong>ID 999</strong> = bug (user nahi hai, code crash karega).
+  </p>
+
+  <div class="fetch-section">
+    <div class="input-row">
+      <label>User ID:</label>
+      <input type="number" [(ngModel)]="inputId" min="1" placeholder="1, 2 ya 999" />
+      <span class="hint">1,2 = Alice/Bob | 999 = bug trigger</span>
+    </div>
+    <div class="buttons">
+      <button type="button" (click)="fetchData('id')" [disabled]="loading">
+        Get User ID
+      </button>
+      <button type="button" (click)="fetchData('email')" [disabled]="loading">
+        Get Email
+      </button>
+    </div>
+  </div>
+
+  @if (result) {
+  <div class="result-box" [class.error]="!result.success">
+    @if (result.success) {
+      <p class="success-msg">✅ {{ result.label }} print hui: <strong>{{ result.value }}</strong></p>
+      @if (result.value === 'User not found') {
+        <p class="graceful-note">(Fix ke baad — graceful, crash nahi)</p>
+      }
+    } @else {
+      <p class="error-msg">❌ {{ result.label }} print nahi hui — bug ki wajah se:</p>
+      <code>{{ result.value }}</code>
+      <p class="fix-hint">Fix ke baad: "User not found" dikhega, crash nahi hoga.</p>
+    }
+  </div>
+  }
+
+  <div class="before-after">
+    <h4>📋 Before Fix vs After Fix</h4>
+    <div class="comparison">
+      <div class="col">
+        <strong>Abhi (Bug):</strong>
+        <ul>
+          <li>ID 1, 2 → ID/Email print hoti hai ✅</li>
+          <li>ID 999 → Crash, kuch print nahi hota ❌</li>
+        </ul>
+      </div>
+      <div class="col">
+        <strong>Fix ke baad:</strong>
+        <ul>
+          <li>ID 1, 2 → ID/Email print hoti hai ✅</li>
+          <li>ID 999 → "User not found" (graceful) ✅</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bug-cards">
+    <h4>Bug Details</h4>
+    @for (bug of bugs; track bug.id) {
+      <div class="bug-card">
+        <span class="bug-id">{{ bug.id }}</span>
+        <h3>{{ bug.title }}</h3>
+        <p class="description">{{ bug.description }}</p>
+        <div class="detail-row"><strong>Error:</strong> <code>{{ bug.errorMessage }}</code></div>
+        <div class="detail-row"><strong>Fix:</strong> <code>{{ bug.fixSuggestion }}</code></div>
+      </div>
+    }
+  </div>
+</div>

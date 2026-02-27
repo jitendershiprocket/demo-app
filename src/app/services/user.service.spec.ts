@@ -34,4 +34,14 @@ describe('UserService', () => {
     const id = service.getUserId(999);
     expect(id).toBeNull();
   });
+
+  it('getUserEmail returns email when user found', () => {
+    const email = service.getUserEmail(1);
+    expect(email).toBe('alice@example.com');
+  });
+
+  it('getUserEmail returns null when user not found (no crash)', () => {
+    const email = service.getUserEmail(999);
+    expect(email).toBeNull();
+  });
 });
