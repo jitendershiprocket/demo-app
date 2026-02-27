@@ -17,13 +17,10 @@ export class UserService {
   }
 
   /**
-   * BUG: Returns user ID without null check.
-   * When user not found → "Cannot read property 'id' of undefined"
-   * Fix: Add optional chaining or null check.
+   * Returns user ID or null if not found.
    */
   getUserId(id: number): number | null {
     const user = this.users.find((u) => u.id === id);
-    // BUG: user can be undefined - type assertion hides it, runtime crash when id not found
-    return (user as { id: number }).id;
+    return user?.id ?? null;
   }
 }
