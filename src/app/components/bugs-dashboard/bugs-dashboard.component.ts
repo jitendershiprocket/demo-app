@@ -43,7 +43,7 @@ export class BugsDashboardComponent {
         let label: string;
         switch (bugId) {
           case 'bug-1':
-            value = repeatStr('x', -1);
+            value = repeatStr('x', Math.max(0, -1));
             label = 'Repeat';
             break;
           case 'bug-2':
