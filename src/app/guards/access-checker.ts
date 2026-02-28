@@ -6,6 +6,6 @@ export class AccessChecker {
 
   getAccessLevel(userId: number): number {
     const user = this.users.find((u) => u.id === userId);
-    return (user as { level: number }).level;
+    return user?.level ?? 0;
   }
 }
