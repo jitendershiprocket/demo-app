@@ -9,11 +9,7 @@ export class ConfigService {
    * Triggers: parseIds('{invalid}') → SyntaxError: Unexpected token
    */
   parseIds(jsonStr: string): number[] {
-    try {
-      const obj = JSON.parse(jsonStr);
-      return obj.ids ?? [];
-    } catch {
-      return [];
-    }
+    const obj = JSON.parse(jsonStr); // BUG: no try/catch
+    return obj.ids ?? [];
   }
 }

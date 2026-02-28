@@ -4,10 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CalculatorService {
+  /** Bug: Throws on b=0 — no guard. */
   divide(a: number, b: number): number {
-    if (b === 0) {
-      return 0;
-    }
+    if (b === 0) throw new Error('Division by zero');
     return a / b;
   }
 }

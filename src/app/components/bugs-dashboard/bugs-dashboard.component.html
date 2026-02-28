@@ -1,37 +1,69 @@
 <div class="bugs-dashboard">
   <h2>Project Phoenix — CTO Demo</h2>
   <p class="subtitle">
-    5 independent bugs across 5 files. Each triggers a different Sentry error. Phoenix fixes one at a time.
+    10 independent bugs across 10 files. Each trigger has its own input. Phoenix fixes one at a time.
   </p>
 
   <div class="fetch-section">
     <div class="input-grid">
       <div class="input-row">
-        <label for="userIdInput">User ID (1,2 valid | 999 bug):</label>
-        <input id="userIdInput" type="number" [(ngModel)]="inputId" min="1" />
+        <label for="userIdInput">1. User ID (1,2 valid; 999 bug):</label>
+        <input id="userIdInput" type="number" [(ngModel)]="inputUserId" min="1" />
       </div>
       <div class="input-row">
-        <label for="inputA">Divide A / B (B=0 bug):</label>
+        <label for="inputAB">2. Divide A / B (B=0 bug):</label>
         <span>
           <input id="inputA" type="number" [(ngModel)]="inputA" style="width:60px" /> /
           <input id="inputB" type="number" [(ngModel)]="inputB" style="width:60px" />
         </span>
       </div>
       <div class="input-row">
-        <label for="indexInput">Array index (0-1 valid | 5 bug):</label>
+        <label for="formatIdInput">3. Format ID (1,2 valid; 999 bug):</label>
+        <input id="formatIdInput" type="number" [(ngModel)]="inputFormatId" min="1" />
+      </div>
+      <div class="input-row">
+        <label for="indexInput">4. Array index (0-1 valid; 5 bug):</label>
         <input id="indexInput" type="number" [(ngModel)]="inputIndex" min="0" />
       </div>
       <div class="input-row">
-        <label for="jsonInput">JSON (valid: &#123;"ids":[1,2]&#125;):</label>
+        <label for="jsonInput">5. JSON string:</label>
         <input id="jsonInput" type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
+      </div>
+      <div class="input-row">
+        <label for="dateKeyInput">6. Date key (1,2 valid; 999 bug):</label>
+        <input id="dateKeyInput" type="number" [(ngModel)]="inputDateKey" min="1" />
+      </div>
+      <div class="input-row">
+        <label for="factorialInput">7. Factorial n (neg = stack overflow):</label>
+        <input id="factorialInput" type="number" [(ngModel)]="inputFactorial" />
+      </div>
+      <div class="input-row">
+        <label for="reverseInput">8. String to reverse:</label>
+        <span>
+          <input id="reverseInput" type="text" [(ngModel)]="inputReverseStr" placeholder="hello" />
+          <label><input type="checkbox" [(ngModel)]="inputUseNullForString" /> Pass null</label>
+        </span>
+      </div>
+      <div class="input-row">
+        <label for="cacheKeyInput">9. Cache key (a,b valid; missing bug):</label>
+        <input id="cacheKeyInput" type="text" [(ngModel)]="inputCacheKey" placeholder="a" />
+      </div>
+      <div class="input-row">
+        <label for="emailInput">10. Email (empty = null bug):</label>
+        <input id="emailInput" type="text" [(ngModel)]="inputEmail" placeholder="user@example.com" />
       </div>
     </div>
     <div class="buttons">
-      <button type="button" (click)="triggerBug('bug-1')" [disabled]="loading">Bug 1: getUserId</button>
-      <button type="button" (click)="triggerBug('bug-2')" [disabled]="loading">Bug 2: divide</button>
-      <button type="button" (click)="triggerBug('bug-3')" [disabled]="loading">Bug 3: getUppercaseEmail</button>
-      <button type="button" (click)="triggerBug('bug-4')" [disabled]="loading">Bug 4: getItemNameAt</button>
-      <button type="button" (click)="triggerBug('bug-5')" [disabled]="loading">Bug 5: parseIds</button>
+      <button type="button" (click)="triggerBug('bug-1')" [disabled]="loading">Bug 1</button>
+      <button type="button" (click)="triggerBug('bug-2')" [disabled]="loading">Bug 2</button>
+      <button type="button" (click)="triggerBug('bug-3')" [disabled]="loading">Bug 3</button>
+      <button type="button" (click)="triggerBug('bug-4')" [disabled]="loading">Bug 4</button>
+      <button type="button" (click)="triggerBug('bug-5')" [disabled]="loading">Bug 5</button>
+      <button type="button" (click)="triggerBug('bug-6')" [disabled]="loading">Bug 6</button>
+      <button type="button" (click)="triggerBug('bug-7')" [disabled]="loading">Bug 7</button>
+      <button type="button" (click)="triggerBug('bug-8')" [disabled]="loading">Bug 8</button>
+      <button type="button" (click)="triggerBug('bug-9')" [disabled]="loading">Bug 9</button>
+      <button type="button" (click)="triggerBug('bug-10')" [disabled]="loading">Bug 10</button>
     </div>
   </div>
 

@@ -15,6 +15,6 @@ export class FormatService {
    */
   getUppercaseEmail(id: number): string {
     const email = this.emails[id];
-    return email?.toUpperCase() ?? '';
+    return email.toUpperCase(); // BUG: email can be undefined
   }
 }
