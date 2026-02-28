@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
 export class StringService {
   /** Bug: split on null when str is null. */
   reverse(str: string | null): string {
-    return (str as string).split('').reverse().join(''); // BUG: str can be null at runtime
+    return (str ?? '').split('').reverse().join('');
   }
 }
