@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as Sentry from '@sentry/angular';
-import { ApiService } from '../../services/api.service';
+import { MathService } from '../../services/math.service';
+import { CalculatorService } from '../../services/calculator.service';
 import { StorageService } from '../../services/storage.service';
-import { truncate } from '../../utils/string-utils';
+import { repeatStr } from '../../utils/string-utils';
 import { pickKeys } from '../../utils/object-utils';
-import { formatPercent } from '../../lib/formatters';
-import { formatHighlight } from '../../directives/highlight.helper';
+import { safeInvoke } from '../../utils/call-utils';
+import { sum } from '../../utils/array-utils';
+import { toPrecisionSafe } from '../../lib/number-utils';
 import { findItemName } from '../search/search.helper';
-import { RoleGuard } from '../../guards/role.guard';
 import { matchPattern } from '../../utils/regex.utils';
-import { SlugifyPipe } from '../../pipes/slugify.pipe';
 import { KNOWN_BUGS } from '../../data/bugs.data';
 
 type BugTrigger =
@@ -25,13 +25,11 @@ type BugTrigger =
   styleUrl: './bugs-dashboard.component.scss',
 })
 export class BugsDashboardComponent {
-  private apiService = inject(ApiService);
+  private mathService = inject(MathService);
+  private calculatorService = inject(CalculatorService);
   private storageService = inject(StorageService);
-  private roleGuard = new RoleGuard();
-  private slugifyPipe = new SlugifyPipe();
 
   bugs = KNOWN_BUGS;
-
   result: { success: boolean; label: string; value: string } | null = null;
   loading = false;
 
@@ -45,44 +43,44 @@ export class BugsDashboardComponent {
         let label: string;
         switch (bugId) {
           case 'bug-1':
-            value = truncate(null, 10);
-            label = 'Truncate';
+            value = repeatStr('x', -1);
+            label = 'Repeat';
             break;
           case 'bug-2':
-            value = JSON.stringify(pickKeys(null));
-            label = 'PickKeys';
+            value = String(this.mathService.factorial(-1));
+            label = 'Factorial';
             break;
           case 'bug-3':
-            value = String(this.apiService.getStatus(null));
-            label = 'Status';
+            value = String(this.calculatorService.divide(10, 0));
+            label = 'Divide';
             break;
           case 'bug-4':
-            value = this.slugifyPipe.transform(null);
-            label = 'Slugify';
+            value = String(safeInvoke(undefined));
+            label = 'Invoke';
             break;
           case 'bug-5':
-            value = formatPercent(null);
-            label = 'Percent';
+            value = String(sum([]));
+            label = 'Sum';
             break;
           case 'bug-6':
-            value = String(this.roleGuard.getRoleLevel(null));
-            label = 'Role';
+            value = toPrecisionSafe(1.23, 0);
+            label = 'Precision';
             break;
           case 'bug-7':
-            value = formatHighlight(undefined);
-            label = 'Highlight';
-            break;
-          case 'bug-8':
-            value = findItemName([], 999);
-            label = 'FindItem';
-            break;
-          case 'bug-9':
             value = JSON.stringify(this.storageService.getParsed('missing'));
             label = 'Storage';
             break;
-          case 'bug-10':
+          case 'bug-8':
             value = String(matchPattern('hello', '['));
             label = 'Regex';
+            break;
+          case 'bug-9':
+            value = JSON.stringify(pickKeys(null));
+            label = 'PickKeys';
+            break;
+          case 'bug-10':
+            value = findItemName([], 999);
+            label = 'FindItem';
             break;
         }
         this.result = { success: true, label: label!, value: value! };

@@ -1,49 +1,49 @@
 <div class="bugs-dashboard">
   <h2>Project Phoenix — Agent Maturity Test v2</h2>
   <p class="subtitle">
-    10 new unique bugs across services/, pipes/, utils/, lib/, guards/, directives/, components/
+    10 diverse bugs: RangeError, Error, SyntaxError, TypeError (not a function, reduce, etc.)
   </p>
 
   <div class="fetch-section">
     <div class="input-grid">
       <div class="input-row">
-        <span class="label">1. utils/ truncate (null)</span>
+        <span class="label">1. RangeError — repeat(-1)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">2. utils/ pickKeys (null)</span>
+        <span class="label">2. RangeError — factorial stack overflow</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">3. services/ getStatus (null)</span>
+        <span class="label">3. Error — division by zero</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">4. pipes/ slugify (null)</span>
+        <span class="label">4. TypeError — fn is not a function</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">5. lib/ formatPercent (null)</span>
+        <span class="label">5. TypeError — reduce of empty array</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">6. guards/ getRoleLevel (null)</span>
+        <span class="label">6. RangeError — toPrecision(0)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">7. directives/ formatHighlight (undefined)</span>
+        <span class="label">7. SyntaxError — JSON.parse</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">8. components/ findItemName (empty, 999)</span>
+        <span class="label">8. SyntaxError — invalid RegExp</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">9. services/ getParsed (missing key)</span>
+        <span class="label">9. TypeError — Object.entries(null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">10. utils/ matchPattern (invalid regex)</span>
+        <span class="label">10. TypeError — find undefined</span>
         <span>—</span>
       </div>
     </div>
@@ -74,7 +74,7 @@
   }
 
   <div class="bug-cards">
-    <h4>Bug Summary — 10 Unique Errors</h4>
+    <h4>Bug Summary — Diverse Error Types</h4>
     @for (bug of bugs; track bug.id) {
       <div class="bug-card">
         <span class="bug-id">{{ bug.id }}</span>

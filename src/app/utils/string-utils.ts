@@ -1,3 +1,3 @@
-export function truncate(str: string | null, maxLen: number): string {
-  return (str as string).substring(0, maxLen);
+export function repeatStr(str: string, count: number): string {
+  return str.repeat(count);
 }
