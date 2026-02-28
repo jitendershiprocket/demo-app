@@ -1,22 +1,24 @@
 <div class="bugs-dashboard">
-  <h2>🐛 User Data Fetch (Bug Demo)</h2>
+  <h2>🐛 Phoenix Bug Demo — 5 Errors for Sentry</h2>
   <p class="subtitle">
-    User ID daalo, ID ya Email fetch karo. <strong>ID 1, 2</strong> = valid. <strong>ID 999</strong> = bug (user nahi hai, code crash karega).
+    Har button alag error trigger karta hai, Sentry mein log hota hai. Phoenix <code>--from-sentry</code> se fetch karke fix karega.
   </p>
 
   <div class="fetch-section">
     <div class="input-row">
-      <label for="userIdInput">User ID:</label>
-      <input id="userIdInput" type="number" [(ngModel)]="inputId" min="1" placeholder="1, 2 ya 999" />
-      <span class="hint">1,2 = Alice/Bob | 999 = bug trigger</span>
+      <label for="userIdInput">User ID (1,2=valid | 999=bug):</label>
+      <input id="userIdInput" type="number" [(ngModel)]="inputId" min="1" placeholder="999" />
+    </div>
+    <div class="input-row">
+      <label for="indexInput">Array index (0–1=valid | 5+=bug #3):</label>
+      <input id="indexInput" type="number" [(ngModel)]="inputIndex" min="0" placeholder="5" />
     </div>
     <div class="buttons">
-      <button type="button" (click)="fetchData('id')" [disabled]="loading">
-        Get User ID
-      </button>
-      <button type="button" (click)="fetchData('email')" [disabled]="loading">
-        Get Email
-      </button>
+      <button type="button" (click)="triggerBug('bug-1')" [disabled]="loading">Bug #1: getUserId</button>
+      <button type="button" (click)="triggerBug('bug-2')" [disabled]="loading">Bug #2: getUserEmail</button>
+      <button type="button" (click)="triggerBug('bug-3')" [disabled]="loading">Bug #3: getNthUserName</button>
+      <button type="button" (click)="triggerBug('bug-4')" [disabled]="loading">Bug #4: getDomainFromEmail</button>
+      <button type="button" (click)="triggerBug('bug-5')" [disabled]="loading">Bug #5: getEmailLowercase</button>
     </div>
   </div>
 

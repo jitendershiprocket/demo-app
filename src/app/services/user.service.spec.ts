@@ -44,4 +44,17 @@ describe('UserService', () => {
     const email = service.getUserEmail(999);
     expect(email).toBeNull();
   });
+
+  it('getNthUserName returns name when index valid', () => {
+    expect(service.getNthUserName(0)).toBe('Alice');
+    expect(service.getNthUserName(1)).toBe('Bob');
+  });
+
+  it('getDomainFromEmail returns domain when user found', () => {
+    expect(service.getDomainFromEmail(1)).toBe('example.com');
+  });
+
+  it('getEmailLowercase returns lowercase when user found', () => {
+    expect(service.getEmailLowercase(1)).toBe('alice@example.com');
+  });
 });
