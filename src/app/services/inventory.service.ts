@@ -14,6 +14,6 @@ export class InventoryService {
    * Triggers: getItemNameAt(5) → TypeError: Cannot read properties of undefined (reading 'name')
    */
   getItemNameAt(index: number): string {
-    return this.items[index].name; // BUG: no bounds check
+    return this.items[index]?.name ?? '';
   }
 }
