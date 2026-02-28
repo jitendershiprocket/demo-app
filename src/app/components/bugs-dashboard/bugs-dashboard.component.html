@@ -1,51 +1,49 @@
 <div class="bugs-dashboard">
-  <h2>Project Phoenix — Agent Maturity Test</h2>
+  <h2>Project Phoenix — Agent Maturity Test v2</h2>
   <p class="subtitle">
-    10 bugs in different locations: services/, pipes/, utils/, lib/, guards/, directives/, components/
+    10 new unique bugs across services/, pipes/, utils/, lib/, guards/, directives/, components/
   </p>
-
-  <button #directiveTrigger appClickTracker style="display:none">x</button>
 
   <div class="fetch-section">
     <div class="input-grid">
       <div class="input-row">
-        <label>1. services/ User ID (999 bug):</label>
-        <input type="number" [(ngModel)]="inputUserId" min="1" />
-      </div>
-      <div class="input-row">
-        <label>2. pipes/ CurrencyFormat (null):</label>
+        <span class="label">1. utils/ truncate (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>3. utils/ formatTimestamp (null):</label>
+        <span class="label">2. utils/ pickKeys (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>4. utils/ firstId (empty arr):</label>
+        <span class="label">3. services/ getStatus (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>5. services/ JSON (invalid):</label>
-        <input type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
-      </div>
-      <div class="input-row">
-        <label>6. components/ Subtotal (no items):</label>
+        <span class="label">4. pipes/ slugify (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>7. directives/ ClickTracker (no label):</label>
+        <span class="label">5. lib/ formatPercent (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>8. guards/ AccessLevel (999 bug):</label>
-        <input type="number" [(ngModel)]="inputAccessUserId" min="1" />
-      </div>
-      <div class="input-row">
-        <label>9. lib/ validateRequired (null):</label>
+        <span class="label">6. guards/ getRoleLevel (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <label>10. services/ Divide (b=0):</label>
+        <span class="label">7. directives/ formatHighlight (undefined)</span>
+        <span>—</span>
+      </div>
+      <div class="input-row">
+        <span class="label">8. components/ findItemName (empty, 999)</span>
+        <span>—</span>
+      </div>
+      <div class="input-row">
+        <span class="label">9. services/ getParsed (missing key)</span>
+        <span>—</span>
+      </div>
+      <div class="input-row">
+        <span class="label">10. utils/ matchPattern (invalid regex)</span>
         <span>—</span>
       </div>
     </div>
@@ -76,7 +74,7 @@
   }
 
   <div class="bug-cards">
-    <h4>Bug Summary — File Location Maturity Test</h4>
+    <h4>Bug Summary — 10 Unique Errors</h4>
     @for (bug of bugs; track bug.id) {
       <div class="bug-card">
         <span class="bug-id">{{ bug.id }}</span>
