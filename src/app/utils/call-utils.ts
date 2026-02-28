@@ -1,3 +1,6 @@
-export function safeInvoke<T>(fn: (() => T) | undefined): T {
-  return (fn as () => T)();
+export function safeInvoke<T>(fn: (() => T) | undefined): T | undefined {
+  if (typeof fn === 'function') {
+    return fn();
+  }
+  return undefined;
 }
