@@ -46,7 +46,7 @@ export const KNOWN_BUGS: BugInfo[] = [
     id: 'bug-5',
     title: 'Bug 5: JSON.parse without try/catch',
     description: 'ConfigService.parseIds — invalid JSON throws SyntaxError.',
-    errorMessage: 'SyntaxError: Unexpected token',
+    errorMessage: "SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)",
     file: 'src/app/services/config.service.ts',
     line: 14,
     fixSuggestion: 'try { JSON.parse(...) } catch { return [] }',
