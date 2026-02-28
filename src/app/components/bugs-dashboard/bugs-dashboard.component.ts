@@ -57,7 +57,7 @@ export class BugsDashboardComponent {
           }
           case 'bug-5': {
             const lower = this.userService.getEmailLowercase(this.inputId); // 999 → crash
-            value = lower;
+            value = lower ?? 'User not found';
             label = 'Email Lowercase';
             break;
           }
