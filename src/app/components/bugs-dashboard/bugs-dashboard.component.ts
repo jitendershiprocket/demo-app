@@ -31,31 +31,36 @@ export class BugsDashboardComponent {
         let value: string;
         let label: string;
         switch (bugId) {
-          case 'bug-1':
+          case 'bug-1': {
             const id = this.userService.getUserId(this.inputId); // 999 → crash
             value = id !== null ? String(id) : 'User not found';
             label = 'User ID';
             break;
-          case 'bug-2':
+          }
+          case 'bug-2': {
             const email = this.userService.getUserEmail(this.inputId); // 999 → crash
             value = email ?? 'User not found';
             label = 'Email';
             break;
-          case 'bug-3':
+          }
+          case 'bug-3': {
             const name = this.userService.getNthUserName(this.inputIndex); // 5 → crash (only 2 users)
             value = name;
             label = 'Nth User Name';
             break;
-          case 'bug-4':
+          }
+          case 'bug-4': {
             const domain = this.userService.getDomainFromEmail(this.inputId); // 999 → crash
             value = domain;
             label = 'Email Domain';
             break;
-          case 'bug-5':
+          }
+          case 'bug-5': {
             const lower = this.userService.getEmailLowercase(this.inputId); // 999 → crash
             value = lower;
             label = 'Email Lowercase';
             break;
+          }
         }
         this.result = { success: true, label: label!, value: value! };
       } catch (err) {
