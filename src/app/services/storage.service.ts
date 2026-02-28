@@ -5,6 +5,7 @@ export class StorageService {
   private store: Record<string, string> = {};
 
   getParsed(key: string): unknown {
-    return JSON.parse(this.store[key]);
+    const value = this.store[key];
+    return value !== undefined ? JSON.parse(value) : undefined;
   }
 }
