@@ -10,6 +10,6 @@ export class DateService {
   /** Bug: toISOString on undefined when key not found. */
   formatDateForKey(key: number): string {
     const d = this.dates[key];
-    return d.toISOString(); // BUG: d can be undefined
+    return d?.toISOString() ?? '';
   }
 }
