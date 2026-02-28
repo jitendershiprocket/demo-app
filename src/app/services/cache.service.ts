@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class CacheService {
   private cache = new Map<string, { value: string }>([
-    ['a', { value: 'Alpha' }],
-    ['b', { value: 'Beta' }],
+    ['ok', { value: 'cached' }],
   ]);
 
   get(key: string): string {

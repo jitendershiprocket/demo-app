@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as Sentry from '@sentry/angular';
-import { MathService } from '../../services/math.service';
-import { CalculatorService } from '../../services/calculator.service';
-import { StorageService } from '../../services/storage.service';
-import { repeatStr } from '../../utils/string-utils';
-import { pickKeys } from '../../utils/object-utils';
-import { safeInvoke } from '../../utils/call-utils';
-import { sum } from '../../utils/array-utils';
-import { toPrecisionSafe } from '../../lib/number-utils';
-import { findItemName } from '../search/search.helper';
-import { matchPattern } from '../../utils/regex.utils';
+import { UserProfileService } from '../../services/user-profile.service';
+import { ConfigService } from '../../services/config.service';
+import { CacheService } from '../../services/cache.service';
+import { UppercasePipe } from '../../pipes/uppercase.pipe';
+import { formatDate } from '../../utils/date-utils';
+import { sanitize } from '../../lib/sanitize';
+import { getTooltipLength } from '../../directives/tooltip.helper';
+import { getAverage } from '../stats/stats.helper';
+import { AuthGuard } from '../../guards/auth.guard';
+import { splitBy } from '../../utils/split-utils';
 import { KNOWN_BUGS } from '../../data/bugs.data';
 
 type BugTrigger =
@@ -25,11 +25,15 @@ type BugTrigger =
   styleUrl: './bugs-dashboard.component.scss',
 })
 export class BugsDashboardComponent {
-  private mathService = inject(MathService);
-  private calculatorService = inject(CalculatorService);
-  private storageService = inject(StorageService);
+  private userProfile = inject(UserProfileService);
+  private configService = inject(ConfigService);
+  private cacheService = inject(CacheService);
+  private uppercasePipe = new UppercasePipe();
+  private authGuard = new AuthGuard();
 
   bugs = KNOWN_BUGS;
+  inputJson = '{invalid}';
+
   result: { success: boolean; label: string; value: string } | null = null;
   loading = false;
 
@@ -43,44 +47,44 @@ export class BugsDashboardComponent {
         let label: string;
         switch (bugId) {
           case 'bug-1':
-            value = repeatStr('x', Math.max(0, -1));
-            label = 'Repeat';
+            value = this.userProfile.getEmail(999);
+            label = 'Email';
             break;
           case 'bug-2':
-            value = String(this.mathService.factorial(-1));
-            label = 'Factorial';
+            value = JSON.stringify(this.configService.parseIds(this.inputJson));
+            label = 'ParseIds';
             break;
           case 'bug-3':
-            value = String(this.calculatorService.divide(10, 0));
-            label = 'Divide';
+            value = this.uppercasePipe.transform(null);
+            label = 'Uppercase';
             break;
           case 'bug-4':
-            value = String(safeInvoke(undefined));
-            label = 'Invoke';
+            value = formatDate(undefined);
+            label = 'FormatDate';
             break;
           case 'bug-5':
-            value = String(sum([]));
-            label = 'Sum';
+            value = sanitize(null);
+            label = 'Sanitize';
             break;
           case 'bug-6':
-            value = toPrecisionSafe(1.23, 0);
-            label = 'Precision';
+            value = this.authGuard.getRole(999);
+            label = 'Role';
             break;
           case 'bug-7':
-            value = JSON.stringify(this.storageService.getParsed('missing'));
-            label = 'Storage';
+            value = String(getTooltipLength(undefined));
+            label = 'Tooltip';
             break;
           case 'bug-8':
-            value = String(matchPattern('hello', '['));
-            label = 'Regex';
+            value = String(getAverage(undefined));
+            label = 'Average';
             break;
           case 'bug-9':
-            value = JSON.stringify(pickKeys(null));
-            label = 'PickKeys';
+            value = this.cacheService.get('missing');
+            label = 'Cache';
             break;
           case 'bug-10':
-            value = findItemName([], 999);
-            label = 'FindItem';
+            value = JSON.stringify(splitBy(null, ','));
+            label = 'Split';
             break;
         }
         this.result = { success: true, label: label!, value: value! };

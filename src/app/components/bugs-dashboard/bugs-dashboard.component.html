@@ -1,49 +1,49 @@
 <div class="bugs-dashboard">
-  <h2>Project Phoenix — Agent Maturity Test v2</h2>
+  <h2>Project Phoenix — Regression Test</h2>
   <p class="subtitle">
-    10 diverse bugs: RangeError, Error, SyntaxError, TypeError (not a function, reduce, etc.)
+    10 new bugs for regression testing. Trigger each to log to Sentry, then run Phoenix.
   </p>
 
   <div class="fetch-section">
     <div class="input-grid">
       <div class="input-row">
-        <span class="label">1. RangeError — repeat(-1)</span>
+        <span class="label">1. UserProfile getEmail (999)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">2. RangeError — factorial stack overflow</span>
+        <label for="inputJson">2. Config parseIds:</label>
+        <input id="inputJson" type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
+      </div>
+      <div class="input-row">
+        <span class="label">3. UppercasePipe (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">3. Error — division by zero</span>
+        <span class="label">4. formatDate (undefined)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">4. TypeError — fn is not a function</span>
+        <span class="label">5. sanitize (null)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">5. TypeError — reduce of empty array</span>
+        <span class="label">6. AuthGuard getRole (999)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">6. RangeError — toPrecision(0)</span>
+        <span class="label">7. getTooltipLength (undefined)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">7. SyntaxError — JSON.parse</span>
+        <span class="label">8. getAverage (undefined)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">8. SyntaxError — invalid RegExp</span>
+        <span class="label">9. Cache get (missing key)</span>
         <span>—</span>
       </div>
       <div class="input-row">
-        <span class="label">9. TypeError — Object.entries(null)</span>
-        <span>—</span>
-      </div>
-      <div class="input-row">
-        <span class="label">10. TypeError — find undefined</span>
+        <span class="label">10. splitBy (null)</span>
         <span>—</span>
       </div>
     </div>
@@ -74,7 +74,7 @@
   }
 
   <div class="bug-cards">
-    <h4>Bug Summary — Diverse Error Types</h4>
+    <h4>Bug Summary — Regression Test</h4>
     @for (bug of bugs; track bug.id) {
       <div class="bug-card">
         <span class="bug-id">{{ bug.id }}</span>
