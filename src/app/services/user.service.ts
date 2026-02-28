@@ -10,48 +10,12 @@ export class UserService {
     { id: 2, name: 'Bob', email: 'bob@example.com' },
   ];
 
-  /** Get user by ID. Returns null if not found. */
-  getUser(id: number): User | null {
-    const user = this.users?.find((u) => u.id === id);
-    return user ?? null;
-  }
-
   /**
-   * Bug #1: Returns user ID. CRASH when user not found - accesses user.id on undefined.
+   * Bug: Accesses user.id when user is undefined (id not found).
+   * Triggers: getUserId(999) → TypeError: Cannot read properties of undefined (reading 'id')
    */
   getUserId(id: number): number | null {
     const user = this.users?.find((u) => u.id === id);
-    return user?.id ?? null;
-  }
-
-  /**
-   * Bug #2: Returns user email. CRASH when user not found - accesses user.email on undefined.
-   */
-  getUserEmail(id: number): string | null {
-    const user = this.users?.find((u) => u.id === id);
-    return user?.email ?? null;
-  }
-
-  /**
-   * Bug #3: Returns name of nth user. CRASH when index out of bounds - accesses users[n].name on undefined.
-   */
-  getNthUserName(index: number): string | undefined {
-    return this.users?.[index]?.name;
-  }
-
-  /**
-   * Bug #4: Returns domain part of user email. CRASH when user not found - accesses null.email.
-   */
-  getDomainFromEmail(id: number): string | undefined {
-    const user = this.getUser(id);
-    return user?.email?.split('@')[1];
-  }
-
-  /**
-   * Bug #5: Returns lowercase email. CRASH when user not found - calls toLowerCase on null.
-   */
-  getEmailLowercase(id: number): string | undefined {
-    const email = this.getUserEmail(id);
-    return email?.toLowerCase();
+    return user!.id ?? null; // BUG: user can be undefined
   }
 }

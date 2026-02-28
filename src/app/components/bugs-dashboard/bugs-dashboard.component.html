@@ -1,71 +1,61 @@
 <div class="bugs-dashboard">
-  <h2>🐛 Phoenix Bug Demo — 5 Errors for Sentry</h2>
+  <h2>Project Phoenix — CTO Demo</h2>
   <p class="subtitle">
-    Har button alag error trigger karta hai, Sentry mein log hota hai. Phoenix <code>--from-sentry</code> se fetch karke fix karega.
+    5 independent bugs across 5 files. Each triggers a different Sentry error. Phoenix fixes one at a time.
   </p>
 
   <div class="fetch-section">
-    <div class="input-row">
-      <label for="userIdInput">User ID (1,2=valid | 999=bug):</label>
-      <input id="userIdInput" type="number" [(ngModel)]="inputId" min="1" placeholder="999" />
-    </div>
-    <div class="input-row">
-      <label for="indexInput">Array index (0–1=valid | 5+=bug #3):</label>
-      <input id="indexInput" type="number" [(ngModel)]="inputIndex" min="0" placeholder="5" />
+    <div class="input-grid">
+      <div class="input-row">
+        <label for="userIdInput">User ID (1,2 valid | 999 bug):</label>
+        <input id="userIdInput" type="number" [(ngModel)]="inputId" min="1" />
+      </div>
+      <div class="input-row">
+        <label for="inputA">Divide A / B (B=0 bug):</label>
+        <span>
+          <input id="inputA" type="number" [(ngModel)]="inputA" style="width:60px" /> /
+          <input id="inputB" type="number" [(ngModel)]="inputB" style="width:60px" />
+        </span>
+      </div>
+      <div class="input-row">
+        <label for="indexInput">Array index (0-1 valid | 5 bug):</label>
+        <input id="indexInput" type="number" [(ngModel)]="inputIndex" min="0" />
+      </div>
+      <div class="input-row">
+        <label for="jsonInput">JSON (valid: &#123;"ids":[1,2]&#125;):</label>
+        <input id="jsonInput" type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
+      </div>
     </div>
     <div class="buttons">
-      <button type="button" (click)="triggerBug('bug-1')" [disabled]="loading">Bug #1: getUserId</button>
-      <button type="button" (click)="triggerBug('bug-2')" [disabled]="loading">Bug #2: getUserEmail</button>
-      <button type="button" (click)="triggerBug('bug-3')" [disabled]="loading">Bug #3: getNthUserName</button>
-      <button type="button" (click)="triggerBug('bug-4')" [disabled]="loading">Bug #4: getDomainFromEmail</button>
-      <button type="button" (click)="triggerBug('bug-5')" [disabled]="loading">Bug #5: getEmailLowercase</button>
+      <button type="button" (click)="triggerBug('bug-1')" [disabled]="loading">Bug 1: getUserId</button>
+      <button type="button" (click)="triggerBug('bug-2')" [disabled]="loading">Bug 2: divide</button>
+      <button type="button" (click)="triggerBug('bug-3')" [disabled]="loading">Bug 3: getUppercaseEmail</button>
+      <button type="button" (click)="triggerBug('bug-4')" [disabled]="loading">Bug 4: getItemNameAt</button>
+      <button type="button" (click)="triggerBug('bug-5')" [disabled]="loading">Bug 5: parseIds</button>
     </div>
   </div>
 
   @if (result) {
   <div class="result-box" [class.error]="!result.success">
     @if (result.success) {
-      <p class="success-msg">✅ {{ result.label }} print hui: <strong>{{ result.value }}</strong></p>
-      @if (result.value === 'User not found') {
-        <p class="graceful-note">(Fix ke baad — graceful, crash nahi)</p>
-      }
+      <p class="success-msg">✅ {{ result.label }}: <strong>{{ result.value }}</strong></p>
     } @else {
-      <p class="error-msg">❌ {{ result.label }} print nahi hui — bug ki wajah se:</p>
+      <p class="error-msg">❌ {{ result.label }}</p>
       <code>{{ result.value }}</code>
-      <p class="fix-hint">Fix ke baad: "User not found" dikhega, crash nahi hoga.</p>
+      <p class="fix-hint">Logged to Sentry. Run Phoenix --from-sentry to fix.</p>
     }
   </div>
   }
 
-  <div class="before-after">
-    <h4>📋 Before Fix vs After Fix</h4>
-    <div class="comparison">
-      <div class="col">
-        <strong>Abhi (Bug):</strong>
-        <ul>
-          <li>ID 1, 2 → ID/Email print hoti hai ✅</li>
-          <li>ID 999 → Crash, kuch print nahi hota ❌</li>
-        </ul>
-      </div>
-      <div class="col">
-        <strong>Fix ke baad:</strong>
-        <ul>
-          <li>ID 1, 2 → ID/Email print hoti hai ✅</li>
-          <li>ID 999 → "User not found" (graceful) ✅</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
   <div class="bug-cards">
-    <h4>Bug Details</h4>
+    <h4>Bug Summary (each in separate file)</h4>
     @for (bug of bugs; track bug.id) {
       <div class="bug-card">
         <span class="bug-id">{{ bug.id }}</span>
         <h3>{{ bug.title }}</h3>
         <p class="description">{{ bug.description }}</p>
+        <div class="detail-row"><strong>File:</strong> <code>{{ bug.file }}</code></div>
         <div class="detail-row"><strong>Error:</strong> <code>{{ bug.errorMessage }}</code></div>
-        <div class="detail-row"><strong>Fix:</strong> <code>{{ bug.fixSuggestion }}</code></div>
       </div>
     }
   </div>

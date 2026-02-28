@@ -2,6 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as Sentry from '@sentry/angular';
 import { UserService } from '../../services/user.service';
+import { CalculatorService } from '../../services/calculator.service';
+import { FormatService } from '../../services/format.service';
+import { InventoryService } from '../../services/inventory.service';
+import { ConfigService } from '../../services/config.service';
 import { KNOWN_BUGS } from '../../data/bugs.data';
 
 type BugTrigger = 'bug-1' | 'bug-2' | 'bug-3' | 'bug-4' | 'bug-5';
@@ -15,13 +19,21 @@ type BugTrigger = 'bug-1' | 'bug-2' | 'bug-3' | 'bug-4' | 'bug-5';
 })
 export class BugsDashboardComponent {
   private userService = inject(UserService);
+  private calculatorService = inject(CalculatorService);
+  private formatService = inject(FormatService);
+  private inventoryService = inject(InventoryService);
+  private configService = inject(ConfigService);
+
   bugs = KNOWN_BUGS;
-  inputId = 1;
-  inputIndex = 5; // For bug-3: index 5 is out of bounds (only 2 users)
+  inputId = 999;
+  inputA = 10;
+  inputB = 0;
+  inputIndex = 5;
+  inputJson = '{invalid}';
+
   result: { success: boolean; label: string; value: string } | null = null;
   loading = false;
 
-  /** Trigger specific bug. Each sends different error to Sentry. */
   triggerBug(bugId: BugTrigger): void {
     this.loading = true;
     this.result = null;
@@ -32,33 +44,33 @@ export class BugsDashboardComponent {
         let label: string;
         switch (bugId) {
           case 'bug-1': {
-            const id = this.userService.getUserId(this.inputId); // 999 → crash
-            value = id !== null ? String(id) : 'User not found';
+            const id = this.userService.getUserId(this.inputId);
+            value = id !== null ? String(id) : 'Not found';
             label = 'User ID';
             break;
           }
           case 'bug-2': {
-            const email = this.userService.getUserEmail(this.inputId); // 999 → crash
-            value = email ?? 'User not found';
-            label = 'Email';
+            const r = this.calculatorService.divide(this.inputA, this.inputB);
+            value = String(r);
+            label = 'Divide';
             break;
           }
           case 'bug-3': {
-            const name = this.userService.getNthUserName(this.inputIndex); // 5 → crash (only 2 users)
-            value = name ?? 'User not found';
-            label = 'Nth User Name';
+            const email = this.formatService.getUppercaseEmail(this.inputId);
+            value = email ?? '';
+            label = 'Uppercase Email';
             break;
           }
           case 'bug-4': {
-            const domain = this.userService.getDomainFromEmail(this.inputId); // 999 → crash
-            value = domain ?? 'User not found';
-            label = 'Email Domain';
+            const name = this.inventoryService.getItemNameAt(this.inputIndex);
+            value = name ?? '';
+            label = 'Item Name';
             break;
           }
           case 'bug-5': {
-            const lower = this.userService.getEmailLowercase(this.inputId); // 999 → crash
-            value = lower ?? 'User not found';
-            label = 'Email Lowercase';
+            const ids = this.configService.parseIds(this.inputJson);
+            value = JSON.stringify(ids);
+            label = 'Parsed IDs';
             break;
           }
         }
