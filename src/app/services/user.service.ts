@@ -21,8 +21,7 @@ export class UserService {
    */
   getUserId(id: number): number | null {
     const user = this.users?.find((u) => u.id === id);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- intentional bug for Phoenix demo
-    return user!.id ?? null;
+    return user?.id ?? null;
   }
 
   /**
@@ -30,32 +29,29 @@ export class UserService {
    */
   getUserEmail(id: number): string | null {
     const user = this.users?.find((u) => u.id === id);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- intentional bug for Phoenix demo
-    return user!.email ?? null;
+    return user?.email ?? null;
   }
 
   /**
    * Bug #3: Returns name of nth user. CRASH when index out of bounds - accesses users[n].name on undefined.
    */
-  getNthUserName(index: number): string {
-    return this.users[index].name;
+  getNthUserName(index: number): string | undefined {
+    return this.users?.[index]?.name;
   }
 
   /**
    * Bug #4: Returns domain part of user email. CRASH when user not found - accesses null.email.
    */
-  getDomainFromEmail(id: number): string {
+  getDomainFromEmail(id: number): string | undefined {
     const user = this.getUser(id);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- intentional bug for Phoenix demo
-    return user!.email.split('@')[1];
+    return user?.email?.split('@')[1];
   }
 
   /**
    * Bug #5: Returns lowercase email. CRASH when user not found - calls toLowerCase on null.
    */
-  getEmailLowercase(id: number): string {
+  getEmailLowercase(id: number): string | undefined {
     const email = this.getUserEmail(id);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- intentional bug for Phoenix demo
-    return email!.toLowerCase();
+    return email?.toLowerCase();
   }
 }
