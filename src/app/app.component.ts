@@ -13,5 +13,5 @@ import { BugsDashboardComponent } from './components/bugs-dashboard/bugs-dashboa
 export class AppComponent {
   private userService = inject(UserService);
   title = 'Project Phoenix Demo';
-  userId: number | null = this.userService.getUserId(1);
+  userId: number | null = this.userService.getUserId(1) ?? null;
 }
