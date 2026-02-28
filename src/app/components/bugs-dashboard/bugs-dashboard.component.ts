@@ -1,16 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as Sentry from '@sentry/angular';
 import { UserService } from '../../services/user.service';
 import { CalculatorService } from '../../services/calculator.service';
-import { FormatService } from '../../services/format.service';
-import { InventoryService } from '../../services/inventory.service';
 import { ConfigService } from '../../services/config.service';
-import { DateService } from '../../services/date.service';
-import { MathService } from '../../services/math.service';
-import { StringService } from '../../services/string.service';
-import { CacheService } from '../../services/cache.service';
-import { ValidationService } from '../../services/validation.service';
+import { CurrencyFormatPipe } from '../../pipes/currency-format.pipe';
+import { formatTimestamp } from '../../utils/date.utils';
+import { firstId } from '../../utils/collection.utils';
+import { calculateSubtotal } from '../order-card/order-card.helper';
+import { AccessChecker } from '../../guards/access-checker';
+import { ClickTrackerDirective } from '../../directives/click-tracker.directive';
+import { validateRequired } from '../../lib/validators';
 import { KNOWN_BUGS } from '../../data/bugs.data';
 
 type BugTrigger =
@@ -20,35 +20,23 @@ type BugTrigger =
 @Component({
   selector: 'app-bugs-dashboard',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CurrencyFormatPipe, ClickTrackerDirective],
   templateUrl: './bugs-dashboard.component.html',
   styleUrl: './bugs-dashboard.component.scss',
 })
 export class BugsDashboardComponent {
   private userService = inject(UserService);
   private calculatorService = inject(CalculatorService);
-  private formatService = inject(FormatService);
-  private inventoryService = inject(InventoryService);
   private configService = inject(ConfigService);
-  private dateService = inject(DateService);
-  private mathService = inject(MathService);
-  private stringService = inject(StringService);
-  private cacheService = inject(CacheService);
-  private validationService = inject(ValidationService);
+  private currencyPipe = new CurrencyFormatPipe();
+  private accessChecker = new AccessChecker();
+
+  @ViewChild('directiveTrigger') directiveTrigger?: ElementRef<HTMLElement>;
 
   bugs = KNOWN_BUGS;
   inputUserId = 999;
-  inputFormatId = 999;
-  inputA = 10;
-  inputB = 0;
-  inputIndex = 5;
   inputJson = '{invalid}';
-  inputDateKey = 999;
-  inputFactorial = -1;
-  inputReverseStr = 'hello';
-  inputUseNullForString = false;
-  inputCacheKey = 'missing';
-  inputEmail = '';
+  inputAccessUserId = 999;
 
   result: { success: boolean; label: string; value: string } | null = null;
   loading = false;
@@ -69,21 +57,18 @@ export class BugsDashboardComponent {
             break;
           }
           case 'bug-2': {
-            const r = this.calculatorService.divide(this.inputA, this.inputB);
-            value = String(r);
-            label = 'Divide';
+            value = this.currencyPipe.transform(null);
+            label = 'Pipe';
             break;
           }
           case 'bug-3': {
-            const email = this.formatService.getUppercaseEmail(this.inputFormatId);
-            value = email ?? '';
-            label = 'Uppercase Email';
+            value = formatTimestamp(null);
+            label = 'Utils';
             break;
           }
           case 'bug-4': {
-            const name = this.inventoryService.getItemNameAt(this.inputIndex);
-            value = name ?? '';
-            label = 'Item Name';
+            value = String(firstId([]));
+            label = 'First ID';
             break;
           }
           case 'bug-5': {
@@ -93,35 +78,33 @@ export class BugsDashboardComponent {
             break;
           }
           case 'bug-6': {
-            const iso = this.dateService.formatDateForKey(this.inputDateKey);
-            value = iso ?? '';
-            label = 'Date ISO';
+            const sum = calculateSubtotal(undefined);
+            value = sum.toFixed(2);
+            label = 'Subtotal';
             break;
           }
           case 'bug-7': {
-            const f = this.mathService.factorial(this.inputFactorial);
-            value = String(f);
-            label = 'Factorial';
+            this.directiveTrigger?.nativeElement.click();
+            value = 'OK';
+            label = 'Directive';
             break;
           }
           case 'bug-8': {
-            const str = this.inputUseNullForString ? null : this.inputReverseStr;
-            const rev = this.stringService.reverse(str);
-            value = rev ?? '';
-            label = 'Reversed';
+            const level = this.accessChecker.getAccessLevel(this.inputAccessUserId);
+            value = String(level);
+            label = 'Access Level';
             break;
           }
           case 'bug-9': {
-            const cached = this.cacheService.get(this.inputCacheKey);
-            value = cached ?? '';
-            label = 'Cache Value';
+            const ok = validateRequired(null);
+            value = ok ? 'Valid' : 'Invalid';
+            label = 'Required';
             break;
           }
           case 'bug-10': {
-            const emailVal = this.inputEmail.trim() === '' ? null : this.inputEmail;
-            const ok = this.validationService.isValidEmail(emailVal);
-            value = ok ? 'Valid' : 'Invalid';
-            label = 'Email Valid';
+            const r = this.calculatorService.divide(10, 0);
+            value = String(r);
+            label = 'Divide';
             break;
           }
         }
@@ -137,6 +120,6 @@ export class BugsDashboardComponent {
         };
       }
       this.loading = false;
-    }, 300);
+    }, 100);
   }
 }

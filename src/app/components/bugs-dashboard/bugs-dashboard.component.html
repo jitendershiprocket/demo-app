@@ -1,56 +1,52 @@
 <div class="bugs-dashboard">
-  <h2>Project Phoenix</h2>
+  <h2>Project Phoenix — Agent Maturity Test</h2>
   <p class="subtitle">
-    10 independent bugs across 10 files. Each trigger has its own input. Phoenix fixes one at a time.
+    10 bugs in different locations: services/, pipes/, utils/, lib/, guards/, directives/, components/
   </p>
+
+  <button #directiveTrigger appClickTracker style="display:none">x</button>
 
   <div class="fetch-section">
     <div class="input-grid">
       <div class="input-row">
-        <label for="userIdInput">1. User ID (1,2 valid; 999 bug):</label>
-        <input id="userIdInput" type="number" [(ngModel)]="inputUserId" min="1" />
+        <label>1. services/ User ID (999 bug):</label>
+        <input type="number" [(ngModel)]="inputUserId" min="1" />
       </div>
       <div class="input-row">
-        <label for="inputAB">2. Divide A / B (B=0 bug):</label>
-        <span>
-          <input id="inputA" type="number" [(ngModel)]="inputA" style="width:60px" /> /
-          <input id="inputB" type="number" [(ngModel)]="inputB" style="width:60px" />
-        </span>
+        <label>2. pipes/ CurrencyFormat (null):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="formatIdInput">3. Format ID (1,2 valid; 999 bug):</label>
-        <input id="formatIdInput" type="number" [(ngModel)]="inputFormatId" min="1" />
+        <label>3. utils/ formatTimestamp (null):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="indexInput">4. Array index (0-1 valid; 5 bug):</label>
-        <input id="indexInput" type="number" [(ngModel)]="inputIndex" min="0" />
+        <label>4. utils/ firstId (empty arr):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="jsonInput">5. JSON string:</label>
-        <input id="jsonInput" type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
+        <label>5. services/ JSON (invalid):</label>
+        <input type="text" [(ngModel)]="inputJson" placeholder='{"ids":[1,2]}' />
       </div>
       <div class="input-row">
-        <label for="dateKeyInput">6. Date key (1,2 valid; 999 bug):</label>
-        <input id="dateKeyInput" type="number" [(ngModel)]="inputDateKey" min="1" />
+        <label>6. components/ Subtotal (no items):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="factorialInput">7. Factorial n (neg = stack overflow):</label>
-        <input id="factorialInput" type="number" [(ngModel)]="inputFactorial" />
+        <label>7. directives/ ClickTracker (no label):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="reverseInput">8. String to reverse:</label>
-        <span>
-          <input id="reverseInput" type="text" [(ngModel)]="inputReverseStr" placeholder="hello" />
-          <label><input type="checkbox" [(ngModel)]="inputUseNullForString" /> Pass null</label>
-        </span>
+        <label>8. guards/ AccessLevel (999 bug):</label>
+        <input type="number" [(ngModel)]="inputAccessUserId" min="1" />
       </div>
       <div class="input-row">
-        <label for="cacheKeyInput">9. Cache key (a,b valid; missing bug):</label>
-        <input id="cacheKeyInput" type="text" [(ngModel)]="inputCacheKey" placeholder="a" />
+        <label>9. lib/ validateRequired (null):</label>
+        <span>—</span>
       </div>
       <div class="input-row">
-        <label for="emailInput">10. Email (empty = null bug):</label>
-        <input id="emailInput" type="text" [(ngModel)]="inputEmail" placeholder="user@example.com" />
+        <label>10. services/ Divide (b=0):</label>
+        <span>—</span>
       </div>
     </div>
     <div class="buttons">
@@ -80,7 +76,7 @@
   }
 
   <div class="bug-cards">
-    <h4>Bug Summary (each in separate file)</h4>
+    <h4>Bug Summary — File Location Maturity Test</h4>
     @for (bug of bugs; track bug.id) {
       <div class="bug-card">
         <span class="bug-id">{{ bug.id }}</span>

@@ -7,9 +7,8 @@ export class DateService {
     2: new Date('2024-06-20'),
   };
 
-  /** Bug: toISOString on undefined when key not found. */
   formatDateForKey(key: number): string {
     const d = this.dates[key];
-    return d?.toISOString() ?? '';
+    return d.toISOString();
   }
 }

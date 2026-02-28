@@ -7,9 +7,8 @@ export class CacheService {
     ['b', { value: 'Beta' }],
   ]);
 
-  /** Bug: .value on undefined when key not in cache. */
   get(key: string): string {
     const entry = this.cache.get(key);
-    return entry?.value ?? '';
+    return (entry as { value: string }).value;
   }
 }
