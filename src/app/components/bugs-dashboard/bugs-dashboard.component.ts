@@ -45,13 +45,13 @@ export class BugsDashboardComponent {
           }
           case 'bug-3': {
             const name = this.userService.getNthUserName(this.inputIndex); // 5 → crash (only 2 users)
-            value = name;
+            value = name ?? 'User not found';
             label = 'Nth User Name';
             break;
           }
           case 'bug-4': {
             const domain = this.userService.getDomainFromEmail(this.inputId); // 999 → crash
-            value = domain;
+            value = domain ?? 'User not found';
             label = 'Email Domain';
             break;
           }
