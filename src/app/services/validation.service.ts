@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
 export class ValidationService {
   /** Bug: .includes on undefined when email is null. */
   isValidEmail(email: string | null): boolean {
-    return (email as string).includes('@'); // BUG: email can be null at runtime
+    return email?.includes('@') ?? false;
   }
 }
