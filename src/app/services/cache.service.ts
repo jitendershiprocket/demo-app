@@ -8,6 +8,6 @@ export class CacheService {
 
   get(key: string): string {
     const entry = this.cache.get(key);
-    return (entry as { value: string }).value;
+    return entry?.value ?? '';
   }
 }
