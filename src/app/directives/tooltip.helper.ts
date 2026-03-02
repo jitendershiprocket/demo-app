@@ -1,3 +1,3 @@
 export function getTooltipLength(text: string | undefined): number {
-  return (text as string).length;
+  return text?.length ?? 0;
 }
