@@ -1,3 +1,3 @@
-export function sanitize(input: string | null): string {
-  return (input ?? '').replace(/[<>]/g, '');
+export function sanitize(input: string | null | undefined): string {
+  return String(input ?? '').replace(/[<>]/g, '');
 }
