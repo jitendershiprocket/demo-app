@@ -6,6 +6,6 @@ export class AuthGuard {
 
   getRole(userId: number): string {
     const user = this.users.find((u) => u.id === userId);
-    return (user as { role: string }).role;
+    return user?.role ?? '';
   }
 }
